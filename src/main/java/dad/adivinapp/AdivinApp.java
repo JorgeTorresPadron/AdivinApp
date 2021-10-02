@@ -12,69 +12,87 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdivinApp extends Application {
-	
-		private TextField numeroText;
-		private Label comprobarLabel;
-		private Button comprobarButton;
-		private VBox root;
-		private int numeroAleatorio = (int) (Math.random() * (100 + 1));
-		private int intentos = 1;
+
+	private TextField numeroText;
+	private Label comprobarLabel;
+	private Button comprobarButton;
+	private VBox root;
+	private int numeroAleatorio = (int) (Math.random() * (100 + 1));
+	private int intentos = 1;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-				
-				numeroText = new TextField();
-				numeroText.setPrefColumnCount(5);
-				numeroText.setMaxWidth(150);
-				numeroText.setAlignment(Pos.CENTER);
 
-				comprobarLabel = new Label();
-				comprobarLabel.setText("Introduce un número del 1 al 100");
+		numeroText = new TextField();
+		numeroText.setPrefColumnCount(5);
+		numeroText.setMaxWidth(150);
+		numeroText.setAlignment(Pos.CENTER);
 
-				comprobarButton = new Button();
-				comprobarButton.setText("Comprobar");
-				comprobarButton.setOnAction(e -> onComprobarButtonAction(e));
-				comprobarButton.setDefaultButton(true);
+		comprobarLabel = new Label();
+		comprobarLabel.setText("Introduce un número del 1 al 100");
 
-				root = new VBox();
-				root.setSpacing(5);
-				root.setAlignment(Pos.CENTER);
-				root.getChildren().addAll(comprobarLabel, numeroText, comprobarButton);
+		comprobarButton = new Button();
+		comprobarButton.setText("Comprobar");
+		comprobarButton.setOnAction(e -> onComprobarButtonAction(e));
+		comprobarButton.setDefaultButton(true);
 
-				Scene escena = new Scene(root, 320, 200);
+		root = new VBox();
+		root.setSpacing(5);
+		root.setAlignment(Pos.CENTER);
+		root.getChildren().addAll(comprobarLabel, numeroText, comprobarButton);
 
-				primaryStage.setScene(escena);
-				primaryStage.setTitle("AdivinApp");
-				primaryStage.show();
-			}
+		Scene escena = new Scene(root, 320, 200);
 
+		primaryStage.setScene(escena);
+		primaryStage.setTitle("AdivinApp");
+		primaryStage.show();
+	}
 
 	private void onComprobarButtonAction(ActionEvent e) {
 		int numero = Integer.parseInt(numeroText.getText());
 		try {
-			if (numero>numeroAleatorio) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
+			if (numero < 1) {
+				Alert alert = new Alert(Alert.AlertType.ERROR); // por si escribe un numero menor que 1
 				alert.setTitle("AdivinApp");
-				alert.setHeaderText("¡Has fallado!");
-				alert.setContentText("El número a adivinar es menor que " + numero + "." + "\n\nVuelve a intentarlo.");
+				alert.setHeaderText("Error");
+				alert.setContentText("El número introducido debe ser mayor que 1");
 				alert.showAndWait();
 				intentos++;
-			} else if (numero<numeroAleatorio) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
+			} else if (numero > 100){
+				Alert alert = new Alert(Alert.AlertType.ERROR); // por si escribe un numero mayor que 100
 				alert.setTitle("AdivinApp");
-				alert.setHeaderText("¡Has fallado!");
-				alert.setContentText("El número a adivinar es mayor que " + numero + "." + "\n\nVuelve a intentarlo.");
+				alert.setHeaderText("Error");
+				alert.setContentText("El número introducido debe ser menor que 100");
 				alert.showAndWait();
 				intentos++;
-			} else if (numero==numeroAleatorio){
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("AdivinApp");
-				alert.setHeaderText("¡Has ganado!");
-				alert.setContentText("Sólo has necesitado " + intentos + " intentos." + "\n\nVuelve a jugar y hazlo mejor");
-				alert.showAndWait();
-			}	
+			} else {
+				if (numero > numeroAleatorio) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("AdivinApp");
+					alert.setHeaderText("¡Has fallado!");
+					alert.setContentText(
+							"El número a adivinar es menor que " + numero + "." + "\n\nVuelve a intentarlo.");
+					alert.showAndWait();
+					intentos++;
+				} else if (numero < numeroAleatorio) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("AdivinApp");
+					alert.setHeaderText("¡Has fallado!");
+					alert.setContentText(
+							"El número a adivinar es mayor que " + numero + "." + "\n\nVuelve a intentarlo.");
+					alert.showAndWait();
+					intentos++;
+				} else if (numero == numeroAleatorio) {
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("AdivinApp");
+					alert.setHeaderText("¡Has ganado!");
+					alert.setContentText(
+							"Sólo has necesitado " + intentos + " intentos." + "\n\nVuelve a jugar y hazlo mejor");
+					alert.showAndWait();
+				}
+			}
 		} catch (NumberFormatException exception) {
-			Alert alert = new Alert(Alert.AlertType.ERROR); //por si no escribe un numero
+			Alert alert = new Alert(Alert.AlertType.ERROR); // por si no escribe un numero
 			alert.setTitle("AdivinApp");
 			alert.setHeaderText("Error");
 			alert.setContentText("El número introducido no es válido");
@@ -82,7 +100,7 @@ public class AdivinApp extends Application {
 			intentos++;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 
