@@ -58,7 +58,7 @@ public class AdivinApp extends Application {
 				alert.setContentText("El número introducido debe ser mayor que 1");
 				alert.showAndWait();
 				intentos++;
-			} else if (numero > 100){
+			} else if (numero > 100) {
 				Alert alert = new Alert(Alert.AlertType.ERROR); // por si escribe un numero mayor que 100
 				alert.setTitle("AdivinApp");
 				alert.setHeaderText("Error");
